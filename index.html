@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Bujjama AI</title>
+</head>
+
+<body>
+
+<h1>🤖 Bujjama AI</h1>
+
+<p>Hello Manoj!</p>
+
+<button onclick="speak()">Talk</button>
+
+<script>
+function speak(){
+    const msg = new SpeechSynthesisUtterance(
+        "Hello Manoj. I am Bujjama AI. How can I help you today?"
+    );
+    msg.lang="en-IN";
+    speechSynthesis.speak(msg);
+}
+</script>
+
+</body>
+</html>
