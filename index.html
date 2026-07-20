@@ -1,26 +1,179 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Bujjama AI</title>
+
+<style>
+
+body{
+background:#0d1117;
+color:white;
+font-family:Arial;
+text-align:center;
+padding:20px;
+}
+
+h1{
+color:#00ffd5;
+}
+
+#chat{
+margin-top:20px;
+background:#161b22;
+padding:15px;
+border-radius:15px;
+min-height:250px;
+overflow:auto;
+text-align:left;
+}
+
+.user{
+color:#58a6ff;
+margin:10px 0;
+}
+
+.ai{
+color:#00ff99;
+margin:10px 0;
+}
+
+button{
+
+padding:15px 30px;
+margin-top:20px;
+font-size:18px;
+border:none;
+border-radius:30px;
+background:#00ffd5;
+cursor:pointer;
+
+}
+
+button:hover{
+background:#00ccaa;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<h1>🤖 Bujjama AI</h1>
+<h1>🤖 BUJJAMA AI</h1>
 
-<p>Hello Manoj!</p>
+<p>Your Personal AI Assistant</p>
 
-<button onclick="speak()">Talk</button>
+<button onclick="startListening()">🎤 Speak</button>
+
+<div id="chat"></div>
 
 <script>
-function speak(){
-    const msg = new SpeechSynthesisUtterance(
-        "Hello Manoj. I am Bujjama AI. How can I help you today?"
-    );
-    msg.lang="en-IN";
-    speechSynthesis.speak(msg);
+
+const chat=document.getElementById("chat");
+
+function addUser(text){
+
+chat.innerHTML+="<div class='user'><b>You:</b> "+text+"</div>";
+
 }
+
+function addAI(text){
+
+chat.innerHTML+="<div class='ai'><b>Bujjama:</b> "+text+"</div>";
+
+const speech=new SpeechSynthesisUtterance(text);
+
+speech.lang="en-IN";
+
+speech.rate=1;
+
+speech.pitch=1;
+
+speechSynthesis.speak(speech);
+
+}
+
+function reply(command){
+
+command=command.toLowerCase();
+
+if(command.includes("hello")){
+
+addAI("Hello Manoj. Nice to see you.");
+
+}
+
+else if(command.includes("your name")){
+
+addAI("My name is Bujjama AI.");
+
+}
+
+else if(command.includes("time")){
+
+addAI("Current time is "+new Date().toLocaleTimeString());
+
+}
+
+else if(command.includes("date")){
+
+addAI("Today is "+new Date().toDateString());
+
+}
+
+else if(command.includes("thank")){
+
+addAI("You are welcome Manoj.");
+
+}
+
+else{
+
+addAI("Sorry Manoj. I am still learning. Soon I will become your complete Jarvis.");
+
+}
+
+}
+
+function startListening(){
+
+const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+
+if(!SpeechRecognition){
+
+alert("Speech Recognition not supported.");
+
+return;
+
+}
+
+const recognition=new SpeechRecognition();
+
+recognition.lang="en-IN";
+
+recognition.start();
+
+recognition.onresult=function(event){
+
+const text=event.results[0][0].transcript;
+
+addUser(text);
+
+reply(text);
+
+};
+
+recognition.onerror=function(){
+
+addAI("Microphone permission denied.");
+
+};
+
+}
+
 </script>
 
 </body>
